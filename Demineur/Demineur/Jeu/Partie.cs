@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using IHM;
+using Demineur.Jeu;
 
 namespace Jeu
 {
@@ -16,7 +17,7 @@ namespace Jeu
 
         public void CommencerPartie(int largeur, int hauteur, int mines)
         {
-
+            Plateau p = new Plateau(this, largeur, hauteur, mines);
         }
 
         public void DecouvrirCase(int x, int y)
