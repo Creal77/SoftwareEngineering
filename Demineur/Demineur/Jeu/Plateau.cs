@@ -15,9 +15,12 @@ namespace Demineur.Jeu
         Case[,] cases;
         int mines, decouvertes, restantes;
 
-        public Plateau(Partie partie, int largeur, int longueur, int mines)
+        public Plateau(Partie partie, int largeur, int hauteur, int mines)
         {
-
+            this.partie = partie;
+            this.largeur = largeur;
+            this.hauteur = hauteur;
+            this.mines = mines;
         }
 
         public Case Trouver(int x, int y)
