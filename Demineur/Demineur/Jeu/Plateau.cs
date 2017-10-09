@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace Demineur.Jeu
 {
-    public class Plateau
+    class Plateau
     {
         public Partie partie;
         public int largeur;
         public int hauteur;
         Case[,] cases;
         int mines, decouvertes, restantes;
+
+        public Plateau(Partie partie, int largeur, int longueur, int mines)
+        {
+
+        }
 
         public Case Trouver(int x, int y)
         {
