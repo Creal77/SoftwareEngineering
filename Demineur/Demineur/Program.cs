@@ -4,19 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Demineur
+namespace IHM
 {
     static class Program
     {
-        /// <summary>
-        /// Point d'entrée principal de l'application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
+            // initialiser le jeu
+            IActions model = new Jeu.Partie();
+            Fenetre vue = new Fenetre(model);
+
+            // lancer le jeu
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(vue);
         }
     }
 }
