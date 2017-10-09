@@ -9,5 +9,11 @@ namespace Demineur.Jeu
 {
     class Case
     {
+        List<Case> voisines = new List<Case>();
+        public void Connecter(Case c)
+        {
+            voisines.Add(c);
+        }
     }
+}
 }

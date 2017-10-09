@@ -15,9 +15,25 @@ namespace Demineur.Jeu
         Case[,] cases;
         int mines, decouvertes, restantes;
 
-        public Plateau(Partie partie, int largeur, int longueur, int mines)
+        public Plateau(Partie partie, int largeur, int hauteur, int mines)
         {
-
+            this.partie = partie;
+            this.largeur = largeur;
+            this.hauteur = hauteur;
+            this.mines = mines;
+            cases = new Case[largeur, hauteur];
+            for (int x = 0; x < largeur; x++)
+            {
+                for (int y = 0; y < hauteur; y++)
+                {
+                    cases[x, y] = new Case();
+                    int N = hauteur - 1;
+                    if (x > 0 && y > 0) Connecter(cases[x, y], cases[x - 1, y - 1]);
+                    if (x > 0) Connecter(cases[x, y], cases[x - 1, y]);
+                    if (y > 0) Connecter(cases[x, y], cases[x, y - 1]);
+                    if (x > 0 && y < N) Connecter(cases[x, y], cases[x - 1, y + 1]);
+                }
+            }
         }
 
         public Case Trouver(int x, int y)
@@ -36,6 +52,11 @@ namespace Demineur.Jeu
         public bool TesterSiGagne()
         {
             return decouvertes + mines == largeur * hauteur;
+        }
+        void Connecter(Case a, Case b)
+        {
+            a.Connecter(b);
+            b.Connecter(a);
         }
     }
 }
