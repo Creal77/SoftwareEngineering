@@ -55,11 +55,14 @@ namespace IHM
             jeu = model;
             jeu.vue = this;
             jeu.CommencerPartie(largeur_grille, hauteur_grille, numero_mines);
+            MineLabel.Text = "Mines : " + numero_mines;
+
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
             jeu.CommencerPartie(largeur_grille, hauteur_grille, numero_mines);
+            MineLabel.Text = "Mines : " + numero_mines;
 
             // reset des info
             StartButton.Image = global::Demineur.Properties.Resources.happySmiley;
@@ -150,6 +153,11 @@ namespace IHM
         {
             StartButton.Image = global::Demineur.Properties.Resources.winnerSmiley;
             jeu.TerminerPartie();
+        }
+
+        private void MineLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

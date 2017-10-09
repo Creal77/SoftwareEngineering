@@ -9,11 +9,74 @@ namespace Demineur.Jeu
 {
     class Case
     {
+        bool decouverte, drapeau;
         List<Case> voisines = new List<Case>();
+        Plateau plateau;
+        int x, y;
+        public bool minee { get; set; }
+
+        public Case(Plateau plateau, int x, int y)
+        {
+            this.plateau = plateau;
+            decouverte = false;
+            drapeau = false;
+            minee = false;
+            this.x = x;
+            this.y = y;
+        }
+
         public void Connecter(Case c)
         {
             voisines.Add(c);
         }
+
+        public bool Decouvrir()
+        {
+            if (!decouverte && !drapeau)
+            {
+                decouverte = true;
+            }
+            else
+            {
+                return false;
+            }
+            plateau.IncrementerDecouvertes();
+            if (minee)
+            {
+                plateau.partie.vue.AfficherCaseMinee(x, y, minee);
+                return true;
+            }
+            else
+            {
+                int num = 0;
+                plateau.partie.vue.AfficherCaseNumerotee(x, y, num);
+                foreach (Case cases in voisines)
+                {
+                    if (cases.minee)
+                    {
+                        num++;
+                    }
+                }
+                foreach (Case cases in voisines)
+                {
+                    if (num == 0)
+                    {
+                        cases.Decouvrir();
+                    }
+                }
+                plateau.partie.vue.AfficherCaseNumerotee(x, y, num);
+                return false;
+            }
+        }
+
+        public void Marquer()
+        {
+            if (!decouverte)
+            {
+                drapeau = drapeau ? false : true;
+                plateau.ModifierMarquees(drapeau);
+                plateau.partie.vue.MarquerCase(x, y, drapeau);
+            }
+        }
     }
-}
 }

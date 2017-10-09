@@ -12,27 +12,33 @@ namespace Demineur.Jeu
         public Partie partie;
         public int largeur;
         public int hauteur;
-        Case[,] cases;
+        public Case[,] cases;
         int mines, decouvertes, restantes;
 
         public Plateau(Partie partie, int largeur, int hauteur, int mines)
         {
+            Random rnd = new Random();
             this.partie = partie;
             this.largeur = largeur;
             this.hauteur = hauteur;
             this.mines = mines;
+            restantes = mines;
             cases = new Case[largeur, hauteur];
             for (int x = 0; x < largeur; x++)
             {
                 for (int y = 0; y < hauteur; y++)
                 {
-                    cases[x, y] = new Case();
+                    cases[x, y] = new Case(this, x, y);
                     int N = hauteur - 1;
                     if (x > 0 && y > 0) Connecter(cases[x, y], cases[x - 1, y - 1]);
                     if (x > 0) Connecter(cases[x, y], cases[x - 1, y]);
                     if (y > 0) Connecter(cases[x, y], cases[x, y - 1]);
                     if (x > 0 && y < N) Connecter(cases[x, y], cases[x - 1, y + 1]);
                 }
+            }
+            for (int i = 0; i < mines; i++)
+            {
+                cases[rnd.Next(0, largeur), rnd.Next(0, hauteur)].minee = true;
             }
         }
 

@@ -51,6 +51,7 @@
             this.MineLabel.Size = new System.Drawing.Size(35, 13);
             this.MineLabel.TabIndex = 2;
             this.MineLabel.Text = "label2";
+            this.MineLabel.Click += new System.EventHandler(this.MineLabel_Click);
             // 
             // GridPanel
             // 

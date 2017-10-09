@@ -8,8 +8,8 @@ namespace Jeu
 {
     public class Partie : IActions
     {
-        Random rnd = new Random(); // à supprimer après le test
-
+        Plateau p;
+        bool gagnee;
         public IReactions vue
         {
             get; set;
@@ -17,27 +17,40 @@ namespace Jeu
 
         public void CommencerPartie(int largeur, int hauteur, int mines)
         {
-            Plateau p = new Plateau(this, largeur, hauteur, mines);
+            p = new Plateau(this, largeur, hauteur, mines);
         }
 
         public void DecouvrirCase(int x, int y)
         {
-            // à supprimer après le test
-            int i = rnd.Next(-1, 9);
-            if(i==-1)
-                vue.AfficherCaseMinee(x, y, true);
+            Case c = p.Trouver(x, y);
+            if (c.Decouvrir())
+            {
+                vue.PartiePerdue();
+                TerminerPartie();
+            }
             else
-                vue.AfficherCaseNumerotee(x, y, i);
+            {
+                bool gagnee = p.TesterSiGagne();
+                if (gagnee)
+                {
+                    vue.PartieGagnee();
+                    TerminerPartie();
+                }
+            }
         }
 
         public void MarquerCase(int x, int y)
         {
-
+            Case c = p.Trouver(x, y);
+            c.Marquer();
         }
 
         public void TerminerPartie()
         {
-
+            foreach (Case cases in p.cases)
+            {
+                cases.Decouvrir();
+            }
         }
     }
 }
