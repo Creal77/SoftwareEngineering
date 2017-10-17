@@ -32,8 +32,14 @@ namespace Demineur.Jeu
 
         public bool Decouvrir()
         {
-            if (!decouverte && !drapeau)
+            if (!decouverte)
             {
+                if(drapeau)
+                {
+                    drapeau = false;
+                    plateau.ModifierMarquees(drapeau);
+                    plateau.partie.vue.MarquerCase(x, y, drapeau);
+                }
                 decouverte = true;
             }
             else
@@ -67,6 +73,11 @@ namespace Demineur.Jeu
                 plateau.partie.vue.AfficherCaseNumerotee(x, y, num);
                 return false;
             }
+        }
+
+        public void Afficher()
+        {
+            decouverte = true;
         }
 
         public void Marquer()
