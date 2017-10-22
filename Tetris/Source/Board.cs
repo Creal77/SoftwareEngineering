@@ -10,13 +10,13 @@ namespace Source
     {
         readonly int rows;
         readonly int columns;
-        Block[,] blocks;
+        Grid[,] blocks;
 
         public Board(int rows, int columns)
         {
             this.rows = rows;
             this.columns = columns;
-            blocks = new Block[columns, rows];
+            blocks = new Grid[columns, rows];
             for (int col = 0; col < columns; col++)
             {
                 for (int row = 0; row < rows; row++)
@@ -33,9 +33,9 @@ namespace Source
             {
                 for (int col = 0; col < columns; col++)
                 {
-                    if(blocks[col,row] != null)
+                    if (blocks[col, row] != null)
                     {
-                        s += blocks[col, row].Representation;
+                        s += "" + blocks[col, row].CellAt(0,0);
                     }
                     else
                     {
@@ -53,7 +53,7 @@ namespace Source
             {
                 for (int row = 0; row < rows; row++)
                 {
-                    if(blocks[col, row] != null && blocks[col,row].Falling)
+                    if (blocks[col, row] != null && ((MovableGrid)(blocks[col, row])).Falling)
                     {
                         return true;
                     }
@@ -62,8 +62,9 @@ namespace Source
             return false;
         }
 
-        public void Drop(Block block)
+        public void Drop(Grid shape)
         {
+            ModuleHandle block = new Block(shape.ToString());
             if (IsFallingBlock())
             {
                 throw new ArgumentException("A block is already falling.");
@@ -78,7 +79,7 @@ namespace Source
         {
             for (int col = 0; col < columns; col++)
             {
-                for (int row = rows - 1; row > 0 ; row--)
+                for (int row = rows - 1; row > 0; row--)
                 {
                     if (blocks[col, row] == null)
                     {
