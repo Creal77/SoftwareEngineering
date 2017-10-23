@@ -131,7 +131,7 @@ namespace Source
             {
                 tmp[i - 1] = positions[i].ToString();
             }
-            return new Tetromino(tmp.ToString());
+            return new Tetromino(tmp);
         }
 
         public Tetromino RotateLeft()

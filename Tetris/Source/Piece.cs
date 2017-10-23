@@ -8,28 +8,20 @@ namespace Source
 {
     public class Piece : Grid
     {
-        public int x, y;
+        public int x = 0, y = 0;
         public char[,] blocks { get; set; }
 
         public Piece(String grid)
         {
-            for (int i = 0; i < grid.Length; i++)
-            {
-                if (grid[i] != '\n' && y == 0)
-                {
-                    x++;
-                }
-                if (grid[i] == '\n')
-                {
-                    y++;
-                }
-            }
+            String[] subGrid = grid.Split('\n');
+            x = subGrid[0].Length;
+            y = subGrid.Length - 1;
             blocks = new char[x, y];
-            for (int col = 0; col < x; col++)
+            for (int row = 0; row < y; row++)
             {
-                for (int row = 0; row < y; row++)
+                for (int col = 0; col < x; col++)
                 {
-                    blocks[col, row] = '.';
+                    blocks[col, row] = subGrid[row][col];
                 }
             }
         }
@@ -37,11 +29,11 @@ namespace Source
         public override String ToString()
         {
             String grid = "";
-            for (int col = 0; col < x; col++)
+            for (int row = 0; row < y; row++)
             {
-                for (int row = 0; row < y; row++)
+                for (int col = 0; col < x; col++)
                 {
-                    grid += '.';
+                    grid += blocks[col, row];
                 }
                 grid += "\n";
             }

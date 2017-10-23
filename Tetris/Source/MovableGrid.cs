@@ -18,6 +18,12 @@ namespace Source
             Falling = true;
         }
 
+        public MovableGrid(Grid shape)
+        {
+            Representation = new Tetromino(shape.CellAt(0, 0) + "\n");
+            Falling = true;
+        }
+
         public int Rows()
         {
             return Representation.Rows();
