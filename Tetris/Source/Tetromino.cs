@@ -9,7 +9,7 @@ namespace Source
     public class Tetromino : Grid
     {
 
-        public static Grid T_SHAPE
+        public static Tetromino T_SHAPE
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Source
             }
         }
 
-        public static Grid I_SHAPE
+        public static Tetromino I_SHAPE
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Source
             }
         }
 
-        public static Grid L_SHAPE
+        public static Tetromino L_SHAPE
         {
             get
             {
@@ -75,7 +75,7 @@ namespace Source
             }
         }
 
-        public static Grid J_SHAPE
+        public static Tetromino J_SHAPE
         {
             get
             {
@@ -99,7 +99,7 @@ namespace Source
             }
         }
 
-        public static Grid S_SHAPE
+        public static Tetromino S_SHAPE
         {
             get
             {
@@ -115,7 +115,7 @@ namespace Source
             }
         }
 
-        public static Grid Z_SHAPE
+        public static Tetromino Z_SHAPE
         {
             get
             {
@@ -131,7 +131,7 @@ namespace Source
             }
         }
 
-        public static Grid O_SHAPE
+        public static Tetromino O_SHAPE
         {
             get
             {

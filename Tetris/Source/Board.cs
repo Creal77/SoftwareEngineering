@@ -68,6 +68,24 @@ namespace Source
                     }
                 }
             }
+            if (!IsFallingBlock())
+            {
+                for (int row = 0; row < rows; row++)
+                {
+                    int contain = 0;
+                    for (int col = 0; col < columns; col++)
+                    {
+                        if (blocks[row, col] != '.')
+                        {
+                            contain++;
+                        }
+                    }
+                    if (contain == columns)
+                    {
+                        DeleteRow(row);
+                    }
+                }
+            }
         }
 
         public void Drop(Grid shape)
@@ -83,13 +101,14 @@ namespace Source
         {
             MovableGrid test = movingGrid.MoveDown();
             refreshTab(movingGrid, null);
-            if (ConflictsWithBoard(test) == false)
+            if (!ConflictsWithBoard(test))
             {
                 refreshTab(null, test);
                 movingGrid = test;
             }
             else
             {
+                StopFallingBlock();
                 refreshTab(null, movingGrid);
             }
         }
@@ -98,7 +117,7 @@ namespace Source
         {
             MovableGrid test = movingGrid.MoveLeft();
             refreshTab(movingGrid, null);
-            if (ConflictsWithBoard(test) == false)
+            if (!ConflictsWithBoard(test))
             {
                 refreshTab(null, test);
                 movingGrid = test;
@@ -113,7 +132,7 @@ namespace Source
         {
             MovableGrid test = movingGrid.MoveRight();
             refreshTab(movingGrid, null);
-            if (ConflictsWithBoard(test) == false)
+            if (!ConflictsWithBoard(test))
             {
                 refreshTab(null, test);
                 movingGrid = test;
@@ -210,6 +229,17 @@ namespace Source
                 }
             }
             refreshTab(null, movingGrid);
+        }
+
+        private void DeleteRow(int indice)
+        {
+            for (int row = indice; row > 0; row--)
+            {
+                for (int col = 0; col < columns; col++)
+                {
+                    blocks[row, col] = blocks[row - 1, col];
+                }
+            }
         }
     }
 }

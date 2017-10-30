@@ -34,7 +34,7 @@ namespace Test
         [TestMethod]
         public void board_has_no_falling_blocks()
         {
-            Assert.IsFalse( board.IsFallingBlock() );
+            Assert.IsFalse(board.IsFallingBlock());
         }
 
         #endregion

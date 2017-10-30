@@ -24,12 +24,6 @@ namespace Source
             Y = y;
         }
 
-        public MovableGrid(Grid shape)
-        {
-            Representation = new Tetromino(shape.CellAt(0, 0) + "\n");
-            Falling = true;
-        }
-
         public int Rows()
         {
             return Representation.Rows();
@@ -94,6 +88,18 @@ namespace Source
                 }
             }
             return true;
+        }
+        public bool BottomHit(char[,] matrix)
+        {
+            for (int i = 0; i < Rows(); i++)
+            {
+                for (int j = 0; j < Columns(); j++)
+                {
+                    if (Y + i > matrix.GetLength(0) - 1 && CellAt(i, j) != '.')
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }
