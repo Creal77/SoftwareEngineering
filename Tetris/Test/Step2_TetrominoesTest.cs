@@ -12,7 +12,7 @@ namespace Test
 
         Tetromino CreateTshape()
         {
-            return new Tetromino(
+            return new Tetromino(new string[] {
                 "....\n" +
                 "TTT.\n" +
                 ".T..\n"
@@ -28,7 +28,7 @@ namespace Test
                 ".T..\n" +
                 ".TT.\n" +
                 ".T..\n"
-            );
+            });
         }
 
         [TestMethod]

@@ -8,59 +8,47 @@ namespace Source
 {
     public class Piece : Grid
     {
-        public int x, y;
+        public int rows, columns;
         public char[,] blocks { get; set; }
 
         public Piece(String grid)
         {
-            for (int i = 0; i < grid.Length; i++)
-            {
-                if (grid[i] != '\n' && y == 0)
-                {
-                    x++;
-                }
-                if (grid[i] == '\n')
-                {
-                    y++;
-                }
-            }
-            blocks = new char[x, y];
-            for (int col = 0; col < x; col++)
-            {
-                for (int row = 0; row < y; row++)
-                {
-                    blocks[col, row] = '.';
-                }
-            }
+            string[] tmp = grid.Split('\n');
+            rows = tmp.Length - 1;
+            columns = tmp[0].Length;
+            blocks = new char[rows, columns];
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < columns; j++)
+                    blocks[i, j] = tmp[i][j];
         }
 
         public override String ToString()
         {
-            String grid = "";
-            for (int col = 0; col < x; col++)
+            string grid = "";
+            for (int i = 0; i < Rows(); i++)
             {
-                for (int row = 0; row < y; row++)
+                for (int j = 0; j < Columns(); j++)
                 {
-                    grid += '.';
+                    grid += blocks[i, j];
                 }
-                grid += "\n";
+                grid += '\n';
             }
             return grid;
         }
 
         public char CellAt(int row, int col)
         {
-            return blocks[col, row];
+            return blocks[row, col];
         }
 
         public int Columns()
         {
-            return x;
+            return blocks.GetLength(1);
         }
 
         public int Rows()
         {
-            return y;
+            return blocks.GetLength(0);
         }
     }
 }

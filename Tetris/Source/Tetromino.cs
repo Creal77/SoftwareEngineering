@@ -8,26 +8,36 @@ namespace Source
 {
     public class Tetromino : Grid
     {
-     
-        public static Tetromino T_SHAPE = new Tetromino(
-                "....\n" +
-                "TTT.\n" +
-                ".T..\n"
-            ,
-                ".T..\n" +
-                "TT..\n" +
-                ".T..\n"
-            ,
-                "....\n" +
-                ".T..\n" +
-                "TTT.\n"
-            ,
-                ".T..\n" +
-                ".TT.\n" +
-                ".T..\n"
-            );
 
-        public static Tetromino I_SHAPE = new Tetromino(
+        public static Grid T_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
+                  "....\n" +
+                  "TTT.\n" +
+                  ".T..\n"
+              ,
+                  ".T..\n" +
+                  "TT..\n" +
+                  ".T..\n"
+              ,
+                  "....\n" +
+                  ".T..\n" +
+                  "TTT.\n"
+              ,
+                  ".T..\n" +
+                  ".TT.\n" +
+                  ".T..\n"
+              });
+            }
+        }
+
+        public static Grid I_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
                 "....\n" +
                 "IIII\n" +
                 "....\n" +
@@ -37,9 +47,15 @@ namespace Source
                 "..I.\n" +
                 "..I.\n" +
                 "..I.\n"
-            );
+                });
+            }
+        }
 
-        public static Tetromino L_SHAPE = new Tetromino(
+        public static Grid L_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
                 "....\n" +
                 "LLL.\n" +
                 "L...\n"
@@ -55,9 +71,15 @@ namespace Source
                 ".L..\n" +
                 ".L..\n" +
                 ".LL.\n"
-            );
+                });
+            }
+        }
 
-        public static Tetromino J_SHAPE = new Tetromino(
+        public static Grid J_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
                 "....\n" +
                 "JJJ.\n" +
                 "..J.\n"
@@ -73,9 +95,15 @@ namespace Source
                 ".JJ.\n" +
                 ".J..\n" +
                 ".J..\n"
-            );
+                });
+            }
+        }
 
-        public static Tetromino S_SHAPE = new Tetromino(
+        public static Grid S_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
                 "....\n" +
                 ".SS.\n" +
                 "SS..\n"
@@ -83,9 +111,15 @@ namespace Source
                 "S...\n" +
                 "SS..\n" +
                 ".S..\n"
-            );
+                });
+            }
+        }
 
-        public static Tetromino Z_SHAPE = new Tetromino(
+        public static Grid Z_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
                 "....\n" +
                 "ZZ..\n" +
                 ".ZZ.\n"
@@ -93,24 +127,49 @@ namespace Source
                 "..Z.\n" +
                 ".ZZ.\n" +
                 ".Z..\n"
-            );
+                });
+            }
+        }
 
-        public static Tetromino O_SHAPE = new Tetromino(
+        public static Grid O_SHAPE
+        {
+            get
+            {
+                return new Tetromino(new string[] {
                 ".OO.\n" +
                 ".OO.\n"
-            );
+                });
+            }
+        }
 
         Piece[] positions;
         Piece position;
+        int actualPos;
+        public int X { get; set; }
+        public int Y { get; set; }
 
-        public Tetromino(params string[] shapes)
+        public Tetromino(string[] shapes)
         {
             positions = new Piece[shapes.Length];
             for (int i = 0; i < shapes.Length; i++)
             {
                 positions[i] = new Piece(shapes[i]);
             }
-            position = positions[0];
+            actualPos = 0;
+            position = positions[actualPos];
+            X = 0;
+            Y = 0;
+        }
+
+        public Tetromino(string s) : this(new string[] { s })
+        {
+        }
+
+        private Tetromino(Piece[] positionsT, int selected)
+        {
+            positions = positionsT;
+            actualPos = selected;
+            position = positions[actualPos];
         }
 
         public override String ToString()
@@ -120,49 +179,30 @@ namespace Source
 
         public Tetromino RotateRight()
         {
-            int numberOfPostions = positions.Length;
-            if (numberOfPostions == 1)
-            {
-                return new Tetromino(positions[0].ToString());
-            }
-            String[] tmp = new String[numberOfPostions];
-            tmp[numberOfPostions - 1] = positions[0].ToString();
-            for (int i = 1; i < numberOfPostions; i++)
-            {
-                tmp[i - 1] = positions[i].ToString();
-            }
-            return new Tetromino(tmp.ToString());
+            return new Tetromino(positions, (actualPos + 1) % positions.Length);
         }
 
         public Tetromino RotateLeft()
         {
-            int numberOfPostions = positions.Length;
-            if (numberOfPostions == 1)
-            {
-                return new Tetromino(positions[0].ToString());
-            }
-            String[] tmp = new String[numberOfPostions];
-            tmp[0] = positions[numberOfPostions - 1].ToString();
-            for (int i = 1; i < numberOfPostions; i++)
-            {
-                tmp[i] = positions[i - 1].ToString();
-            }
-            return new Tetromino(tmp);
+            int selected = actualPos - 1;
+            if (selected < 0)
+                selected = positions.Length - 1;
+            return new Tetromino(positions, selected % positions.Length);
         }
 
         public int Rows()
         {
-            return position.y;
+            return position.Rows();
         }
 
         public int Columns()
         {
-            return position.x;
+            return position.Columns();
         }
 
         public char CellAt(int row, int col)
         {
-            return position.CellAt(row,col);
+            return position.CellAt(row, col);
         }
     }
 }

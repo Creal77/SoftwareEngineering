@@ -8,14 +8,20 @@ namespace Source
 {
     public class MovableGrid : Grid
     {
-        public Board actualBoard;
         public Tetromino Representation { get; set; }
-        public bool Falling { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
-        public MovableGrid(Tetromino tetromino, Board board)
+        public MovableGrid(Tetromino tetromino)
         {
             Representation = tetromino;
-            Falling = true;
+        }
+
+        public MovableGrid(Tetromino tetromino, int x, int y)
+        {
+            Representation = tetromino;
+            X = x;
+            Y = y;
         }
 
         public int Rows()
@@ -33,24 +39,54 @@ namespace Source
             return Representation.CellAt(row, col);
         }
 
-        public void MoveLeft()
+        public MovableGrid MoveTo(int x, int y)
         {
-
+            return new MovableGrid(Representation, x, y);
         }
 
-        public void MoveRight()
+        public MovableGrid MoveDown()
         {
-
+            return new MovableGrid(Representation, X, Y + 1);
         }
 
-        public void MoveDown()
+        public MovableGrid MoveLeft()
         {
-
+            return new MovableGrid(Representation, X - 1, Y);
         }
 
-        public bool Collision()
+        public MovableGrid MoveRight()
         {
+            return new MovableGrid(Representation, X + 1, Y);
+        }
 
+        public MovableGrid RotateRight()
+        {
+            return new MovableGrid(Representation.RotateRight(), X, Y);
+        }
+
+        public MovableGrid RotateLeft()
+        {
+            return new MovableGrid(Representation.RotateLeft(), X, Y);
+        }
+
+        public bool Collision(char[,] matrix)
+        {
+            for (int i = 0; i < Rows(); i++)
+            {
+                for (int j = 0; j < Columns(); j++)
+                {
+                    if (X + j < 0 && CellAt(i, j) != '.')
+                        return false;
+                    else if (Y + i < 0 && CellAt(i, j) != '.')
+                        return false;
+                    else if (X + j > matrix.GetLength(1) - 1 && CellAt(i, j) != '.')
+                        return false;
+                    else if (Y + i > matrix.GetLength(0) - 1 && CellAt(i, j) != '.')
+                        return false;
+                    else if (Y + i <= matrix.GetLength(0) - 1 && X + j <= matrix.GetLength(1) - 1 && X + j >= 0 && Y + i >= 0 && CellAt(i, j) != '.' && matrix[Y + i, X + j] != '.')
+                        return false;
+                }
+            }
             return true;
         }
     }
